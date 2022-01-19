@@ -1,0 +1,54 @@
+### Create User
+POST http://127.0.0.1:8000/api/users
+Accept: application/json
+Content-Type: application/json
+
+{
+    "name": "Gerald",
+    "email": "gerald3@email.com",
+    "password": "password",
+    "avatar": "file|image",
+    "position": "it",
+    "type": "employee",
+    "status": "active"
+}
+
+
+### Fetch all users
+GET http://127.0.0.1:8000/api/users
+Accept: application/json
+
+### Fetch specific user by id
+GET http://127.0.0.1:8000/api/users/1
+Accept: application/json
+
+### Update User by Id
+PUT http://127.0.0.1:8000/api/users/1
+Accept: application/json
+Content-Type: application/json
+
+{
+    "name": "Gerald Afable",
+    "email": "gerald@email.com",
+    "password": "password",
+    "position": "it",
+    "type": "employee",
+    "status": "active"
+}
+
+### Signin specific user by id
+POST http://127.0.0.1:8000/api/users/1/attendances
+Accept: application/json
+
+### Signout specific user by id
+PUT http://127.0.0.1:8000/api/users/1/attendances
+Accept: application/json
+
+### Update Location of specific user by id
+PUT http://127.0.0.1:8000/api/users/1/attendances/updateLocation
+Accept: application/json
+Content-Type: application/json
+
+{
+    "location" : "IT Department"
+}
