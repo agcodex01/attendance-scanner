@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class UserController extends Controller
@@ -33,8 +31,13 @@ class UserController extends Controller
 
         // Create Avatar
         if ($request->hasFile('avatar')) {
-            $data['avatar'] =   $request->file('avatar')
+            $path =   $request->file('avatar')
                 ->store('public/avatars');
+            $data['avatar'] = str_replace('public/', 'storage/', $path);
+        }
+
+        if ($request->has('password')) {
+            $data['password'] = Hash::make($data['password']);
         }
 
         $user = User::create($data);
@@ -72,9 +75,15 @@ class UserController extends Controller
 
         // update Avatar
         if ($request->hasFile('avatar')) {
-            $data['avatar'] =   $request->file('avatar')
+            $path =   $request->file('avatar')
                 ->store('public/avatars');
+            $data['avatar'] = str_replace('public/', 'storage/', $path);
         }
+
+        if ($request->has('password')) {
+            $data['password'] = Hash::make($data['password']);
+        }
+
 
         return $user->update($data);
     }

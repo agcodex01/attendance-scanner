@@ -11,6 +11,11 @@ use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
 {
+    public function index()
+    {
+        return Attendance::all();
+    }
+
     public function signin(User $user): Attendance
     {
         return $user->attendances()->create([

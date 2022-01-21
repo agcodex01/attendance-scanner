@@ -18,16 +18,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::post('login', [AuthController::class, 'authenticate']);
-Route::post('logout', [AuthController::class, 'logout']);
 
-Route::apiResource('users', UserController::class);
-Route::put('users/{user}/updateStatus/{status}', [UserController::class, 'updateStatus']);
-Route::get('locations', [LocationController::class, 'index'])->name('locations.index');
-Route::post('users/{user}/attendances', [AttendanceController::class, 'signin']);
-Route::put('users/{user}/attendances', [AttendanceController::class, 'signout']);
-Route::put('users/{user}/attendances/updateLocation', [AttendanceController::class, 'updateLocation']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('logout', [AuthController::class, 'logout']);
+
+    Route::apiResource('users', UserController::class);
+    Route::put('users/{user}/updateStatus/{status}', [UserController::class, 'updateStatus']);
+    Route::get('locations', [LocationController::class, 'index'])->name('locations.index');
+    Route::get('attendances', [AttendanceController::class, 'index']);
+    Route::post('users/{user}/attendances', [AttendanceController::class, 'signin']);
+    Route::put('users/{user}/attendances', [AttendanceController::class, 'signout']);
+    Route::put('users/{user}/attendances/updateLocation', [AttendanceController::class, 'updateLocation']);
+});
