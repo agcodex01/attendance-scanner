@@ -11,9 +11,25 @@ use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->query('signin')) {
+            return Attendance::whereDate('signin', $request->query('signin'))
+                ->get();
+        }
+
         return Attendance::all();
+    }
+
+    public function perUser(Request $request, User $user)
+    {
+        if ($request->query('signin')) {
+            return $user->attendances()
+                ->whereDate('signin', $request->query('signin'))
+                ->get();
+        }
+
+        return $user->attendances;
     }
 
     public function signin(User $user): Attendance
