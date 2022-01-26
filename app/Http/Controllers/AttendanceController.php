@@ -15,10 +15,11 @@ class AttendanceController extends Controller
     {
         if ($request->query('signin')) {
             return Attendance::whereDate('signin', $request->query('signin'))
+                ->with('user')
                 ->get();
         }
 
-        return Attendance::all();
+        return Attendance::with('user')->get();
     }
 
     public function perUser(Request $request, User $user)
@@ -26,10 +27,11 @@ class AttendanceController extends Controller
         if ($request->query('signin')) {
             return $user->attendances()
                 ->whereDate('signin', $request->query('signin'))
+                ->with('user')
                 ->get();
         }
 
-        return $user->attendances;
+        return $user->attendances()->with('user')->get();
     }
 
     public function signin(User $user): Attendance
