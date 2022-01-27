@@ -15,11 +15,10 @@ class AttendanceController extends Controller
 {
     public function index(AttendanceFilter $filter)
     {
-
         return Attendance::filter($filter)
             ->latest('signin')
             ->with('user')
-            ->take(20)
+            ->take(AttendanceConstant::DEFAULT_TOTAL)
             ->get();
     }
 
@@ -29,7 +28,7 @@ class AttendanceController extends Controller
             ->filter($filter)
             ->latest('signin')
             ->with('user')
-            ->take(20)
+            ->take(AttendanceConstant::DEFAULT_TOTAL)
             ->get();
     }
 
