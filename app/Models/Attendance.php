@@ -20,8 +20,8 @@ class Attendance extends Model
     ];
 
     protected $casts = [
-        'signin' => 'datetime',
-        'signout' => 'datetime'
+        'signin' => 'datetime:m/d/Y h:i A',
+        'signout' => 'datetime:m/d/Y h:i A'
     ];
 
     public function user()
