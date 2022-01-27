@@ -11,7 +11,11 @@ class AuthController extends Controller
 {
     public function authenticate(AuthRequest $request)
     {
-        if (Auth::attempt($request->validated())) {
+        if (Auth::attempt(
+            collect($request->validated())
+                ->except('location')
+                ->all()
+        )) {
             $user = Auth::user();
             return response()->json([
                 'token' => $user->createToken('access_token')->plainTextToken,
@@ -30,6 +34,6 @@ class AuthController extends Controller
 
     public function logout(User $user)
     {
-       return $user->tokens()->delete();
+        return $user->tokens()->delete();
     }
 }
