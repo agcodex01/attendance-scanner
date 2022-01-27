@@ -45,4 +45,6 @@ class UserConstant
             self::GUARD
         ];
     }
+
+    const DEFAULT_DEPARTMENT = 'IT Department';
 }

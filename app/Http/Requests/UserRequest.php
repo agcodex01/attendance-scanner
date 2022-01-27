@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Constants\LocationConstant;
 use App\Constants\UserConstant;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -29,7 +30,7 @@ class UserRequest extends FormRequest
             'email' => 'required|unique:users,email' . ($this->user == null ? '' : ',' . $this->user->id),
             'password' => 'sometimes|string|min:8|max:255',
             'avatar' => 'sometimes|file|image',
-            'position' => 'required|string|min:2|max:255|in:' . implode(',', UserConstant::positions()),
+            'department' => 'required|string|min:2|max:255|in:' . implode(',', LocationConstant::locations()),            'position' => 'required|string|min:2|max:255|in:' . implode(',', UserConstant::positions()),
             'type' => 'required|string|min:2|max:255|in:' . implode(',', UserConstant::types()),
             'status' => 'required|string|min:2|max:255|in:' . implode(',', UserConstant::statuses())
         ];

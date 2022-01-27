@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\AttendanceConstant;
 use App\Constants\LocationConstant;
+use App\Filters\AttendanceFilter;
 use App\Http\Requests\LocationRequest;
 use App\Models\Attendance;
 use App\Models\User;
@@ -11,46 +13,49 @@ use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
 {
-    public function index(Request $request)
+    public function index(AttendanceFilter $filter)
     {
-        if ($request->query('signin')) {
-            return Attendance::whereDate('signin', $request->query('signin'))
-                ->get();
-        }
 
-        return Attendance::all();
-    }
-
-    public function perUser(Request $request, User $user)
-    {
-        if ($request->query('signin')) {
-            return $user->attendances()
-                ->whereDate('signin', $request->query('signin'))
-                ->get();
-        }
-
-        return $user->attendances;
-    }
-
-    public function signin(User $user): Attendance
-    {
-        return $user->attendances()->create([
-            'signin' => Carbon::now(),
-            'location' => LocationConstant::DEFAULT
-        ])->load('user');
-    }
-
-    public function signout(User $user): Attendance
-    {
-        $attendance = $user->attendances()
+        return Attendance::filter($filter)
             ->latest('signin')
-            ->first();
+            ->with('user')
+            ->take(20)
+            ->get();
+    }
 
-        $attendance->update([
-            'signout' => Carbon::now()
-        ]);
+    public function perUser(AttendanceFilter $filter, User $user)
+    {
+        return $user->attendances()
+            ->filter($filter)
+            ->latest('signin')
+            ->with('user')
+            ->take(20)
+            ->get();
+    }
 
-        return $attendance->load('user');
+    public function sign(User $user)
+    {
+        $attendance = $user->attendances()->latest('signin')->first();
+        $canUpdateTime = $attendance->signin->addMinutes(5);
+        if ($attendance && $attendance->signin && !$attendance->signout) {
+            if ($canUpdateTime >= Carbon::now()) {
+                return response()->json([
+                    'errors' => 'You cannot signout now, wait after five minutes.'
+                ], 400);
+            }
+
+            $attendance->update([
+                'signout' => Carbon::now()
+            ]);
+
+            return $attendance->load('user');
+
+        } else {
+            return $user->attendances()->create([
+                'signin' => Carbon::now(),
+                'location' => LocationConstant::DEFAULT
+            ])->load('user');
+        }
     }
 
     public function updateLocation(LocationRequest $request, User $user): Attendance

@@ -28,7 +28,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('locations', [LocationController::class, 'index'])->name('locations.index');
     Route::get('attendances', [AttendanceController::class, 'index']);
     Route::get('users/{user}/attendances', [AttendanceController::class, 'perUser']);
-    Route::post('users/{user}/attendances', [AttendanceController::class, 'signin']);
-    Route::put('users/{user}/attendances', [AttendanceController::class, 'signout']);
+    Route::post('users/{user}/attendances/sign', [AttendanceController::class, 'sign']);
     Route::put('users/{user}/attendances/updateLocation', [AttendanceController::class, 'updateLocation']);
 });

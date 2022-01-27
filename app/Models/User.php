@@ -28,7 +28,8 @@ class User extends Authenticatable
         'qrcode',
         'position',
         'type',
-        'status'
+        'status',
+        'department'
     ];
 
     /**

@@ -31,9 +31,10 @@ class UserController extends Controller
 
         // Create Avatar
         if ($request->hasFile('avatar')) {
-            $path =   $request->file('avatar')
-                ->store('public/avatars');
-            $data['avatar'] = str_replace('public/', 'storage/', $path);
+            $data['avatar'] = $this->generateAvatar(
+                $request->file('avatar'),
+                $request->file('avatar')->getClientOriginalExtension()
+            );
         }
 
         if ($request->has('password')) {
@@ -75,9 +76,10 @@ class UserController extends Controller
 
         // update Avatar
         if ($request->hasFile('avatar')) {
-            $path =   $request->file('avatar')
-                ->store('public/avatars');
-            $data['avatar'] = str_replace('public/', 'storage/', $path);
+            $data['avatar'] = $this->generateAvatar(
+                $request->file('avatar'),
+                $request->file('avatar')->getClientOriginalExtension()
+            );
         }
 
         if ($request->has('password')) {
@@ -104,5 +106,10 @@ class UserController extends Controller
     public function generateQrCode($data): string // base64 url image
     {
         return 'data:image/svg+xml;base64,' . base64_encode(QrCode::generate($data));
+    }
+
+    public function generateAvatar($image, $extension)
+    {
+        return 'data:image/' . $extension . ';base64,' . base64_encode(file_get_contents($image));
     }
 }
