@@ -9,6 +9,6 @@ class ActivityLogController extends Controller
 {
     public function index()
     {
-        return ActivityLog::all();
+        return ActivityLog::with('user')->get();
     }
 }

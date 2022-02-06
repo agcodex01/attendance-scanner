@@ -15,6 +15,10 @@ class ActivityLog extends Model
         'location'
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime:m/d/Y h:i A'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
