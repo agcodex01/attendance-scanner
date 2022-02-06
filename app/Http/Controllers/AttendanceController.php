@@ -6,6 +6,7 @@ use App\Constants\AttendanceConstant;
 use App\Constants\LocationConstant;
 use App\Filters\AttendanceFilter;
 use App\Http\Requests\LocationRequest;
+use App\Models\ActivityLog;
 use App\Models\Attendance;
 use App\Models\User;
 use Carbon\Carbon;
@@ -15,10 +16,19 @@ class AttendanceController extends Controller
 {
     public function index(AttendanceFilter $filter)
     {
+        $attendances = Attendance::filter($filter)
+            ->whereDate('signin', Carbon::now())
+            ->latest('signin')
+            ->with('user')
+            ->get();
+        return collect($attendances)->chunk(6);
+    }
+
+    public function fetchAll(AttendanceFilter $filter)
+    {
         return Attendance::filter($filter)
             ->latest('signin')
             ->with('user')
-            ->take(AttendanceConstant::DEFAULT_TOTAL)
             ->get();
     }
 
@@ -28,15 +38,15 @@ class AttendanceController extends Controller
             ->filter($filter)
             ->latest('signin')
             ->with('user')
-            ->take(AttendanceConstant::DEFAULT_TOTAL)
             ->get();
     }
 
     public function sign(User $user)
     {
         $attendance = $user->attendances()->latest('signin')->first();
-        $canUpdateTime = $attendance->signin->addMinutes(5);
+
         if ($attendance && $attendance->signin && !$attendance->signout) {
+            $canUpdateTime = $attendance->signin->addMinutes(5);
             if ($canUpdateTime >= Carbon::now()) {
                 return response()->json([
                     'errors' => 'You cannot signout now, wait after five minutes.'
@@ -48,7 +58,6 @@ class AttendanceController extends Controller
             ]);
 
             return $attendance->load('user');
-
         } else {
             return $user->attendances()->create([
                 'signin' => Carbon::now(),
@@ -64,6 +73,11 @@ class AttendanceController extends Controller
             ->first();
 
         $attendance->update([
+            'location' => $request->location
+        ]);
+
+        $attendance->activityLogs()->create([
+            'user_id' => $user->id,
             'location' => $request->location
         ]);
 

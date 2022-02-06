@@ -32,6 +32,7 @@ class UserRequest extends FormRequest
             'avatar' => 'sometimes|file|image',
             'department' => 'required|string|min:2|max:255|in:' . implode(',', LocationConstant::locations()),            'position' => 'required|string|min:2|max:255|in:' . implode(',', UserConstant::positions()),
             'type' => 'required|string|min:2|max:255|in:' . implode(',', UserConstant::types()),
+            'position' => 'required|string|min:2|max:255|in:' . implode(',', UserConstant::positions()),
             'status' => 'required|string|min:2|max:255|in:' . implode(',', UserConstant::statuses())
         ];
     }
