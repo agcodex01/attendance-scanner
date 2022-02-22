@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Constants\AttendanceConstant;
 use App\Constants\LocationConstant;
+use App\Events\NewSignIn;
 use App\Filters\AttendanceFilter;
 use App\Http\Requests\LocationRequest;
 use App\Models\ActivityLog;
@@ -21,6 +22,7 @@ class AttendanceController extends Controller
             ->latest('signin')
             ->with('user')
             ->get();
+            event(new NewSignIn());
         return collect($attendances)->chunk(6);
     }
 
