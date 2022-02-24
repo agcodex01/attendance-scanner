@@ -39,6 +39,8 @@ class UserController extends Controller
 
         if ($request->has('password')) {
             $data['password'] = Hash::make($data['password']);
+        }else {
+            $data['password'] = Hash::make('password');
         }
 
         $user = User::create($data);

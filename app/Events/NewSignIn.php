@@ -13,6 +13,10 @@ use Illuminate\Queue\SerializesModels;
 class NewSignIn implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+    /**
+     * @var App/Models/Attendance
+     */
+    public $attendance;
 
     /**
      * Create a new event instance.
@@ -21,7 +25,7 @@ class NewSignIn implements ShouldBroadcast
      */
     public function __construct()
     {
-        //
+       
     }
 
     /**
@@ -31,6 +35,8 @@ class NewSignIn implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('signin');
+        error_log('test');
+        return new Channel('signin');
     }
+
 }

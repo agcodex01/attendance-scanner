@@ -22,12 +22,13 @@ class AttendanceController extends Controller
             ->latest('signin')
             ->with('user')
             ->get();
-            event(new NewSignIn());
+            broadcast(new NewSignIn());
         return collect($attendances)->chunk(6);
     }
 
     public function fetchAll(AttendanceFilter $filter)
     {
+        broadcast(new NewSignIn());
         return Attendance::filter($filter)
             ->latest('signin')
             ->with('user')
@@ -80,7 +81,8 @@ class AttendanceController extends Controller
 
         $attendance->activityLogs()->create([
             'user_id' => $user->id,
-            'location' => $request->location
+            'location' => $request->location,
+            'created_at' => Carbon::now()
         ]);
 
         return $attendance->load('user');

@@ -9,10 +9,13 @@ class ActivityLog extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         'user_id',
         'attendance_id',
-        'location'
+        'location',
+        'created_at'
     ];
 
     protected $casts = [
