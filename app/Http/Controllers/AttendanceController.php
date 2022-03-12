@@ -21,14 +21,13 @@ class AttendanceController extends Controller
             ->whereDate('signin', Carbon::now())
             ->latest('signin')
             ->with('user')
-            ->get();
-            broadcast(new NewSignIn());
+            ->get()
+            ->unique('user_id');
         return collect($attendances)->chunk(6);
     }
 
     public function fetchAll(AttendanceFilter $filter)
     {
-        broadcast(new NewSignIn());
         return Attendance::filter($filter)
             ->latest('signin')
             ->with('user')
@@ -57,11 +56,13 @@ class AttendanceController extends Controller
             }
 
             $attendance->update([
-                'signout' => Carbon::now()
+                'signout' => Carbon::now(),
+                'location' => LocationConstant::DEFAULT
             ]);
-
+            broadcast(new NewSignIn());
             return $attendance->load('user');
         } else {
+            broadcast(new NewSignIn());
             return $user->attendances()->create([
                 'signin' => Carbon::now(),
                 'location' => LocationConstant::DEFAULT
@@ -84,6 +85,8 @@ class AttendanceController extends Controller
             'location' => $request->location,
             'created_at' => Carbon::now()
         ]);
+
+        broadcast(new NewSignIn());
 
         return $attendance->load('user');
     }

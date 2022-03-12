@@ -26,11 +26,12 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|min:2|max:255',
+            'name' => 'required|min:2|max:255',
             'email' => 'required|unique:users,email' . ($this->user == null ? '' : ',' . $this->user->id),
             'password' => 'sometimes|string|min:8|max:255',
             'avatar' => 'sometimes|file|image',
-            'department' => 'required|string|min:2|max:255|in:' . implode(',', LocationConstant::locations()),            'position' => 'required|string|min:2|max:255|in:' . implode(',', UserConstant::positions()),
+            'department' => 'required|string|min:2|max:255|in:' . implode(',', LocationConstant::locations()),
+            'position' => 'required|string|min:2|max:255|in:' . implode(',', UserConstant::positions()),
             'type' => 'required|string|min:2|max:255|in:' . implode(',', UserConstant::types()),
             'position' => 'required|string|min:2|max:255|in:' . implode(',', UserConstant::positions()),
             'status' => 'required|string|min:2|max:255|in:' . implode(',', UserConstant::statuses())
