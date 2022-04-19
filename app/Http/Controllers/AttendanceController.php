@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Constants\AttendanceConstant;
 use App\Constants\LocationConstant;
+use App\Constants\UserConstant;
 use App\Events\NewSignIn;
 use App\Filters\AttendanceFilter;
 use App\Http\Requests\LocationRequest;
@@ -45,6 +46,13 @@ class AttendanceController extends Controller
 
     public function sign(User $user)
     {
+        if ($user->status == UserConstant::INACTIVE) {
+
+            return response()->json([
+                'errors' => 'You account is inactive. Contact adminstrator for guidance.'
+            ], 400);
+        }
+
         $attendance = $user->attendances()->latest('signin')->first();
 
         if ($attendance && $attendance->signin && !$attendance->signout) {
@@ -85,11 +93,25 @@ class AttendanceController extends Controller
         }
     }
 
-    public function updateLocation(LocationRequest $request, User $user): Attendance
+    public function updateLocation(LocationRequest $request, User $user)
     {
+        if ($user->status == UserConstant::INACTIVE) {
+
+            return response()->json([
+                'errors' => 'You account is inactive. Contact adminstrator for guidance.'
+            ], 400);
+        }
+
         $attendance = $user->attendances()
+            ->whereDate('signin', Carbon::now())
             ->latest('signin')
             ->first();
+
+        if (!$attendance) {
+            return response()->json([
+                'errors' => 'You cannot scan in. Scan first in the gate entrance.'
+            ], 400);
+        }
 
         $attendance->update([
             'location' => $request->location
