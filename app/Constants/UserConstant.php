@@ -33,16 +33,23 @@ class UserConstant
     }
 
     // User positions
-    const IT = 'it';
-    const TEACHER = 'teacher';
-    const GUARD = 'guard';
-
+    const INSTRUCTOR1 = 'instructor_1';
+    const INSTRUCTOR2 = 'instructor_2';
+    const ASSOCIATEPROF1 = 'associate_prof_1';
+    const ASSOCIATEPROF2 = 'associate_prof_2';
+    const ASSOCIATEPROF3 = 'associate_prof_3';
+    const ASSOCIATEPROF4 = 'associate_prof_1';
+    const ASSISTANT1 = 'assistant_prof_1';
     public static function positions(): array
     {
         return [
-            self::IT,
-            self::TEACHER,
-            self::GUARD
+            self::INSTRUCTOR1,
+            self::INSTRUCTOR2,
+            self::ASSOCIATEPROF1,
+            self::ASSOCIATEPROF2,
+            self::ASSOCIATEPROF3,
+            self::ASSOCIATEPROF4,
+            self::ASSISTANT1,
         ];
     }
 

@@ -107,7 +107,7 @@ class UserController extends Controller
 
     public function generateQrCode($data): string // base64 url image
     {
-        return 'data:image/svg+xml;base64,' . base64_encode(QrCode::generate($data));
+        return 'data:image/png;base64,' . base64_encode(QrCode::generate($data));
     }
 
     public function generateAvatar($image, $extension)

@@ -4,11 +4,13 @@ namespace App\Constants;
 
 class LocationConstant
 {
-    public const DEFAULT = 'Gate Entrance.';
-    public static function locations(): array {
+    public const DEFAULT = 'Inside the school.';
+    public const OUT = 'Outside the school.';
+    public static function locations(): array
+    {
         return [
             'IT Department',
-            'Faculty Department'
+            'SASO Department'
         ];
     }
 }

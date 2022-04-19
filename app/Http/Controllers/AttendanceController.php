@@ -57,16 +57,31 @@ class AttendanceController extends Controller
 
             $attendance->update([
                 'signout' => Carbon::now(),
-                'location' => LocationConstant::DEFAULT
+                'location' => LocationConstant::OUT
+            ]);
+            $attendance->activityLogs()->create([
+                'user_id' => $user->id,
+                'location' => LocationConstant::DEFAULT,
+                'created_at' => Carbon::now()
             ]);
             broadcast(new NewSignIn());
             return $attendance->load('user');
         } else {
-            broadcast(new NewSignIn());
-            return $user->attendances()->create([
+
+            $attendance = $user->attendances()->create([
                 'signin' => Carbon::now(),
                 'location' => LocationConstant::DEFAULT
             ])->load('user');
+
+            $attendance->activityLogs()->create([
+                'user_id' => $user->id,
+                'location' => LocationConstant::DEFAULT,
+                'created_at' => Carbon::now()
+            ]);
+
+            broadcast(new NewSignIn());
+
+            return $attendance;
         }
     }
 
