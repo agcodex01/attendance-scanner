@@ -47,9 +47,8 @@ class AttendanceController extends Controller
     public function sign(User $user)
     {
         if ($user->status == UserConstant::INACTIVE) {
-
             return response()->json([
-                'errors' => 'You account is inactive. Contact adminstrator for guidance.'
+                'errors' => 'Your account is inactive. Contact adminstrator for guidance.'
             ], 400);
         }
 
@@ -104,6 +103,7 @@ class AttendanceController extends Controller
 
         $attendance = $user->attendances()
             ->whereDate('signin', Carbon::now())
+            ->whereNull('signout')
             ->latest('signin')
             ->first();
 

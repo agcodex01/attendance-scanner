@@ -28,4 +28,16 @@ class LocationRequest extends FormRequest
             'location' => 'required|in:' . implode(',', LocationConstant::locations())
         ];
     }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'location.required' => 'Location is not setup, Contact your administrator for guidance.',
+        ];
+    }
 }
