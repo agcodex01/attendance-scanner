@@ -38,7 +38,7 @@ class UserConstant
     const ASSOCIATEPROF1 = 'associate_prof_1';
     const ASSOCIATEPROF2 = 'associate_prof_2';
     const ASSOCIATEPROF3 = 'associate_prof_3';
-    const ASSOCIATEPROF4 = 'associate_prof_1';
+    const ASSOCIATEPROF4 = 'associate_prof_4';
     const ASSISTANT1 = 'assistant_prof_1';
     public static function positions(): array
     {
