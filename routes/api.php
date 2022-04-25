@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActivityLogController;
+use App\Http\Controllers\AdminControlller;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LocationController;
@@ -33,4 +34,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('users/{user}/attendances/sign', [AttendanceController::class, 'sign']);
     Route::put('users/{user}/attendances/updateLocation', [AttendanceController::class, 'updateLocation']);
     Route::get('activityLogs', [ActivityLogController::class, 'index']);
+    Route::get('/dashboard', [AdminControlller::class, 'index']);
 });

@@ -64,11 +64,13 @@ class AttendanceController extends Controller
 
             $attendance->update([
                 'signout' => Carbon::now(),
-                'location' => LocationConstant::OUT
+                'location' => LocationConstant::OUT,
+                'prev_location' => $attendance->location
             ]);
             $attendance->activityLogs()->create([
                 'user_id' => $user->id,
-                'location' => LocationConstant::DEFAULT,
+                'location' => LocationConstant::OUT,
+                'prev_location' => $attendance->prev_location,
                 'created_at' => Carbon::now()
             ]);
             broadcast(new NewSignIn());
@@ -113,13 +115,19 @@ class AttendanceController extends Controller
             ], 400);
         }
 
+        $currentLocation = $attendance->location == $request->location
+            ? LocationConstant::DEFAULT
+            : $request->location;
+
         $attendance->update([
-            'location' => $request->location
+            'location' => $currentLocation,
+            'prev_location' => $attendance->location
         ]);
 
         $attendance->activityLogs()->create([
             'user_id' => $user->id,
-            'location' => $request->location,
+            'location' => $currentLocation,
+            'prev_location' =>  $attendance->prev_location,
             'created_at' => Carbon::now()
         ]);
 

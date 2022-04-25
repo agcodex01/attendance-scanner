@@ -15,6 +15,7 @@ class ActivityLog extends Model
         'user_id',
         'attendance_id',
         'location',
+        'prev_location',
         'created_at'
     ];
 

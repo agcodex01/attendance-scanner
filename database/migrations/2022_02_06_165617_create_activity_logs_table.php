@@ -18,6 +18,7 @@ class CreateActivityLogsTable extends Migration
             $table->unsignedBigInteger('attendance_id');
             $table->unsignedBigInteger('user_id');
             $table->string('location');
+            $table->string('prev_location')->nullable();
             $table->timestamps();
         });
     }

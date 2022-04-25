@@ -16,7 +16,8 @@ class Attendance extends Model
     protected $fillable = [
         'signin',
         'signout',
-        'location'
+        'location',
+        'prev_location'
     ];
 
     protected $casts = [
