@@ -39,7 +39,12 @@ class UserConstant
     const ASSOCIATEPROF2 = 'associate_prof_2';
     const ASSOCIATEPROF3 = 'associate_prof_3';
     const ASSOCIATEPROF4 = 'associate_prof_4';
-    const ASSISTANT1 = 'assistant_prof_1';
+    const ASSOCIATEPROF5 = 'associate_prof_5';
+    const ASSISTANTPROF1 = 'assistant_prof_1';
+    const ASSISTANTPROF2 = 'associate_prof_2';
+    const ASSISTANTPROF3 = 'associate_prof_3';
+    const ASSISTANTPROF4 = 'associate_prof_4';
+    const ASSISTANTPROF5 = 'associate_prof_5';
     public static function positions(): array
     {
         return [
@@ -49,7 +54,12 @@ class UserConstant
             self::ASSOCIATEPROF2,
             self::ASSOCIATEPROF3,
             self::ASSOCIATEPROF4,
-            self::ASSISTANT1,
+            self::ASSOCIATEPROF5,
+            self::ASSISTANTPROF1,
+            self::ASSISTANTPROF2,
+            self::ASSISTANTPROF3,
+            self::ASSISTANTPROF4,
+            self::ASSISTANTPROF5,
         ];
     }
 

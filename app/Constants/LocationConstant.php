@@ -10,7 +10,18 @@ class LocationConstant
     {
         return [
             'IT Department',
-            'SASO Department'
+            'Education Department',
+            'Entrepreneur Department',
+            'Fishery Department',
+            'Admin Office',
+            'SASO Office',
+            'Accounting',
+            'Registrar',
+            'Cashier',
+            'HRMO',
+            'CMDC',
+            'Library',
+            'Clinic'
         ];
     }
 }
