@@ -5,8 +5,9 @@ namespace App\Filters;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
-class AttendanceFilter extends Filter
+class LogFilter extends Filter
 {
+
     public function userIds(array $ids = [])
     {
         if (!empty($ids)) {
@@ -20,8 +21,8 @@ class AttendanceFilter extends Filter
     {
         if ($dateTime) {
             $dateTime = Carbon::parse($dateTime);
-            $this->builder->whereDate('signin', '>=', $dateTime)
-                ->whereTime('signin', '>=', $dateTime->format('H:i'));
+            $this->builder->whereDate('created_at', '>=', $dateTime)
+                ->whereTime('created_at', '>=', $dateTime->format('H:i'));
         }
     }
 
@@ -29,8 +30,8 @@ class AttendanceFilter extends Filter
     {
         if ($dateTime) {
             $dateTime = Carbon::parse($dateTime);
-            $this->builder->whereDate('signin', '<=', $dateTime)
-                ->whereTime('signin', '<=', $dateTime->format('H:i'));
+            $this->builder->whereDate('created_at', '<=', $dateTime)
+                ->whereTime('created_at', '<=', $dateTime->format('H:i'));
         }
     }
 }

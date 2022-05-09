@@ -55,7 +55,7 @@ class AttendanceController extends Controller
         $attendance = $user->attendances()->latest('signin')->first();
 
         if ($attendance && $attendance->signin && !$attendance->signout) {
-            $canUpdateTime = $attendance->signin->addMinutes(5);
+            $canUpdateTime = Carbon::parse($attendance->signin)->addMinutes(5);
             if ($canUpdateTime >= Carbon::now()) {
                 return response()->json([
                     'errors' => 'You cannot signout now, wait after five minutes.'
@@ -79,13 +79,15 @@ class AttendanceController extends Controller
 
             $attendance = $user->attendances()->create([
                 'signin' => Carbon::now(),
-                'location' => LocationConstant::DEFAULT
+                'location' => LocationConstant::DEFAULT,
+                'prev_location' => LocationConstant::OUT
             ])->load('user');
 
             $attendance->activityLogs()->create([
                 'user_id' => $user->id,
                 'location' => LocationConstant::DEFAULT,
-                'created_at' => Carbon::now()
+                'created_at' => Carbon::now(),
+                'prev_location' => LocationConstant::OUT
             ]);
 
             broadcast(new NewSignIn());

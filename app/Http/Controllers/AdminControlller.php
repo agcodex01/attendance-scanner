@@ -15,8 +15,8 @@ class AdminControlller extends Controller
         return [
             [
                 'icon' => 'mdi-account-multiple',
-                'label' => 'Toatl Users',
-                'total' => User::all()->count()
+                'label' => 'Total Users',
+                'total' => User::all()->except(1)->count()
             ],
             [
                 'icon' => 'mdi-format-list-checks',
@@ -25,7 +25,7 @@ class AdminControlller extends Controller
             ],
             [
                 'icon' => 'mdi-format-list-group',
-                'label' => 'Toatl Activity Logs Today',
+                'label' => 'Total Activity Logs Today',
                 'total' => ActivityLog::whereDate('created_at', Carbon::now())->count()
             ],
         ];
