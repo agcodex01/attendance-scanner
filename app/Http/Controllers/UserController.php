@@ -16,7 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::all()->except(1);
+        return User::latest('register_at')->get()->except(1);
     }
 
     /**
